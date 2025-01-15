@@ -3,6 +3,9 @@
 ## Objective:
 The goal of this project is to design and develop a student information system using .NET Core Web API. The system will provide various functionalities for retrieving, saving, and validating student information. Unlike the previous version, this system will store data in a database, and CRUD operations will be performed using Entity Framework Core (EF Core).
 
+## Screenshot
+![Image Gallery Screenshot](screenshot.png)
+
 ## Tasks:
 1. **Project Setup:**
    - Create a new .NET Core Web API project using Visual Studio.
