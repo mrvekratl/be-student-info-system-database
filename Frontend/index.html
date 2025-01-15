@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Register Form</title>    
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-toggle {
+            text-align: center;
+            margin-top: 10px;
+        }        
+
+        .responsive-img {
+            width: 700px;
+            height: auto;
+        }
+
+        .register-form, .update-form, .delete-form {
+            display: none;
+        }
+
+        .login-form { /* İlk görünmesi gereken form */
+            display: block;
+        }
+
+        #message {
+            display: none;
+            margin-top: 20px;
+        }
+
+    </style>
+   
+</head>
+<body>
+
+    <div class="container">
+        <div class="text-center">
+            <img src="img.png" alt="Student Information System" class="responsive-img" />
+        </div>
+        <!-- Login Form -->
+        <div class="form-container login-form">
+            <h3 class="text-center">Login</h3>
+            <form id="loginForm" action="https://localhost:7214/api/Students/" method="post">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="username" placeholder="Enter username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="Enter password">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </form>
+            <div id="message" class="alert alert-success" role="alert">
+                Giriş yapıldı!
+            </div>
+            <div class="form-toggle">
+                <p>Don't have an account? <a href="#" id="show-register">Create Account</a></p>
+            </div>
+            <div class="form-toggle">
+                <p>Do you want to update? <a href="#" id="show-update">Update Account</a></p>
+            </div>
+            <div class="form-toggle">
+                <p>Do you want to delete? <a href="#" id="show-delete">Delete Account</a></p>
+            </div>
+        </div>
+        <!-- Register Form -->
+        <div class="form-container register-form">
+            <h3 class="text-center">Register</h3>
+            <form id="registerForm" action="https://localhost:7214/api/Students" method="post">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Enter name">
+                </div>
+                <div class="form-group">
+                    <label for="surname">Surname</label>
+                    <input type="text" class="form-control" id="surname" placeholder="Enter surname">
+                </div>
+                <div class="form-group">
+                    <label for="studentNumber">Student Number</label>
+                    <input type="number" class="form-control" id="studentNumber" placeholder="Enter student number">
+                </div>
+                <div class="form-group">
+                    <label for="class">Class</label>
+                    <input type="text" class="form-control" id="class" placeholder="Enter class">
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" class="form-control" id="registerPassword" placeholder="Enter password">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Register</button>
+            </form>
+            <div class="form-toggle">
+                <p>Already have an account? <a href="#" id="show-login">Login</a></p>
+            </div>
+        </div>
+        <!-- Update Form -->
+        <div class="form-container update-form">
+            <h3 class="text-center">Update Student</h3>
+            <form id="updateForm">
+                <div class="form-group">
+                    <label for="updateId">Student ID</label>
+                    <input type="number" class="form-control" id="updateId" placeholder="Enter student ID" required>
+                </div>
+                <div class="form-group">
+                    <label for="updateName">Name</label>
+                    <input type="text" class="form-control" id="updateName" placeholder="Enter name">
+                </div>
+                <div class="form-group">
+                    <label for="updateSurname">Surname</label>
+                    <input type="text" class="form-control" id="updateSurname" placeholder="Enter surname">
+                </div>
+                <div class="form-group">
+                    <label for="updateClass">Class</label>
+                    <input type="text" class="form-control" id="updateClass" placeholder="Enter class">
+                </div>
+                <div class="form-group">
+                    <label for="updatePassword">Password</label>
+                    <input type="password" class="form-control" id="updatePassword" placeholder="Enter password">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" onclick="updateStudent()">Update</button>
+            </form>
+            <div class="form-toggle">
+                <p>Already have an account? <a href="#" id="show-login">Login</a></p>
+            </div>
+        </div>
+        <!-- Delete Form -->
+        <div class="form-container delete-form">
+            <h3 class="text-center">Delete Student</h3>
+            <form id="deleteForm">
+                <div class="form-group">
+                    <label for="deleteId">Student ID</label>
+                    <input type="number" class="form-control" id="deleteId" placeholder="Enter student ID" required>
+                </div>
+                <button type="submit" class="btn btn-danger btn-block" onclick="deleteStudent()">Delete</button>
+            </form>
+            <div class="form-toggle">
+                <p>Already have an account? <a href="#" id="show-login">Login</a></p>
+            </div>
+        </div>
+
+        <div class="text-center"><h1>Student Information System</h1></div>
+    </div>
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Formlar arasında geçiş
+        const toggleForm = (hideSelector, showSelector) => {
+            document.querySelectorAll('.form-container').forEach(form => {
+                form.style.display = 'none';
+            });
+            document.querySelector(showSelector).style.display = 'block';
+        };
+
+        document.getElementById('show-register').addEventListener('click', function (e) {
+            e.preventDefault();
+            toggleForm('.form-container', '.register-form');
+        });
+
+        document.getElementById('show-login').addEventListener('click', function (e) {
+            e.preventDefault();
+            toggleForm('.form-container', '.login-form');
+        });
+
+        document.getElementById('show-update').addEventListener('click', function (e) {
+            e.preventDefault();
+            toggleForm('.form-container', '.update-form');
+        });
+
+        document.getElementById('show-delete').addEventListener('click', function (e) {
+            e.preventDefault();
+            toggleForm('.form-container', '.delete-form');
+        });
+
+
+        // Giriş formu işlemleri
+        document.getElementById('loginForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            fetch('https://localhost:7214/api/Students', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Login successful:', data);
+                    // Başarılı giriş işlemi (örneğin, yönlendirme veya mesaj gösterimi)
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+        document.getElementById('loginForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            fetch('https://localhost:7214/api/Students', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        document.getElementById('message').style.display = 'block';
+                        // Başarı durumunda ek işlemler (örneğin, yönlendirme veya diğer UI güncellemeleri)
+                    } else {
+                        alert('Giriş başarısız!'); // Hata durumunda kullanıcıya bilgi ver
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Bir hata oluştu!'); // Hata durumunda kullanıcıya bilgi ver
+                });
+        });
+
+        // Kayıt formu işlemleri
+        document.getElementById('registerForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const surname = document.getElementById('surname').value;
+            const studentNumber = document.getElementById('studentNumber').value;
+            const className = document.getElementById('class').value;
+            const registerPassword = document.getElementById('registerPassword').value;
+
+            fetch('https://localhost:7214/api/Students', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name, surname, studentNumber, class: className, password: registerPassword })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Registration successful:', data);
+                    // Başarılı kayıt işlemi
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+
+        // Öğrenci güncelleme işlemi
+        function updateStudent() {
+            const studentId = document.getElementById('updateId').value;
+            const updatedStudent = {
+                name: document.getElementById('updateName').value,
+                surname: document.getElementById('updateSurname').value,
+                class: document.getElementById('updateClass').value,
+                password: document.getElementById('updatePassword').value
+            };
+
+            fetch(`https://localhost:7214/api/Students/${studentId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedStudent)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Update successful:', data);
+                    // Başarılı güncelleme işlemi
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Öğrenci silme işlemi
+        function deleteStudent() {
+            const studentId = document.getElementById('deleteId').value;
+
+            fetch(`https://localhost:7214/api/students/${studentId}`, {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Delete successful');
+                        // Başarılı silme işlemi
+                    } else {
+                        console.log('Delete failed');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+
+
+</body>
+
+</html>
